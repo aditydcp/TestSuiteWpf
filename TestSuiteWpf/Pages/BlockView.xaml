@@ -1,0 +1,160 @@
+﻿<Page
+    x:Class="TestSuiteWpf.Pages.BlockView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TestSuiteWpf.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="BlockContent"
+    d:DesignHeight="600"
+    d:DesignWidth="800"
+    Loaded="OnPageLoaded"
+    SizeChanged="OnPageSizeChanged"
+    mc:Ignorable="d">
+
+    <Grid Background="White">
+        <Grid
+            Margin="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Label
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Score: " />
+                <TextBlock Text="{Binding Score, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <TextBlock
+                    x:Name="QuestionLabel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="{DynamicResource BodyFontSize}"
+                    FontWeight="Bold"
+                    Text="{Binding Question, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button
+                    x:Name="Button1"
+                    Margin="100,0,0,240"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="1"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="1" />
+                <Button
+                    x:Name="Button2"
+                    Margin="200,0,0,120"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="2"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="2" />
+                <Button
+                    x:Name="Button3"
+                    Margin="300,0,0,0"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="3"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="3" />
+                <Button
+                    x:Name="Button4"
+                    Margin="200,120,0,0"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="4"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="4" />
+                <Button
+                    x:Name="Button5"
+                    Margin="100,240,0,0"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="5"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="5" />
+                <Button
+                    x:Name="Button6"
+                    Margin="0,240,100,0"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="6"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="6" />
+                <Button
+                    x:Name="Button7"
+                    Margin="0,120,200,0"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="7"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="7" />
+                <Button
+                    x:Name="Button8"
+                    Margin="0,0,300,0"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="8"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="8" />
+                <Button
+                    x:Name="Button9"
+                    Margin="0,0,200,120"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="9"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="9" />
+                <Button
+                    x:Name="Button0"
+                    Margin="0,0,100,240"
+                    Padding="35,10,35,15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="OnAnswerButtonClicked"
+                    Content="0"
+                    FontSize="{DynamicResource ButtonFontSize}"
+                    FontWeight="Bold"
+                    Tag="0" />
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+</Page>
