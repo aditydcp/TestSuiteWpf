@@ -24,9 +24,10 @@ namespace TestSuiteWpf
         protected override void OnStartup(StartupEventArgs e)
         {
             MainWindow = new MainWindow()
-            {
-                DataContext = new MainViewModel()
-            };
+            //{
+            //    DataContext = new MainController()
+            //};
+            ;
             MainWindow.Show();
 
             base.OnStartup(e);

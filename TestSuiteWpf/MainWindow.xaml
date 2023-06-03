@@ -18,7 +18,6 @@
             Loaded="OnMainFrameLoaded"
             MouseDoubleClick="MainFrame_MouseDoubleClick"
             NavigationUIVisibility="Hidden"
-            DataContext="{Binding CurrentViewModel}"
             SizeChanged="OnWindowSizeChanged" />
         <Label
             x:Name="ViewportSizeLabel"

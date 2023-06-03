@@ -57,6 +57,7 @@ namespace TestSuiteWpf
             double titleFontSize = sizeFactor * 5.5;
             double bodyFontSize = sizeFactor * 2.5;
             double buttonFontSize = sizeFactor * 3;
+            double subBodyFontSize = sizeFactor * 2;
 
             Application.Current.Resources.Remove("TitleFontSize");
             Application.Current.Resources.Add("TitleFontSize", titleFontSize);
@@ -64,6 +65,8 @@ namespace TestSuiteWpf
             Application.Current.Resources.Add("BodyFontSize", bodyFontSize);
             Application.Current.Resources.Remove("ButtonFontSize");
             Application.Current.Resources.Add("ButtonFontSize", buttonFontSize);
+            Application.Current.Resources.Remove("SubBodyFontSize");
+            Application.Current.Resources.Add("SubBodyFontSize", subBodyFontSize);
 
             //// debug only
             //ViewportSizeLabel.Content = MainFrame.ActualHeight + "x" + MainFrame.ActualWidth;

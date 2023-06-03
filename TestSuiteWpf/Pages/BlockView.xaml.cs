@@ -22,34 +22,24 @@ namespace TestSuiteWpf.Pages
     /// </summary>
     public partial class BlockView : Page
     {
-        /// <summary>
-        /// Local reference to Score.
-        /// Initial score is 30.
-        /// </summary>
-        //private int score = 30;
-
-        //private Question? currentQuestion = null;
-        private readonly BlockViewModel viewModel;
-
-        //private int hitCount = 0;
-        //private readonly double verticalScaleFactor = 2.5;
+        private readonly BlockViewController controller;
 
         public BlockView()
         {
             InitializeComponent();
-            viewModel = new BlockViewModel();
+            controller = new BlockViewController(this);
         }
 
         private void OnPageSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //hitCount++;
-            //QuestionLabel.Content = "Page just changed!" + hitCount;
             ControlButtons();
         }
 
         private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
             ControlButtons();
+            controller.ControlView();
+            controller.StartQuestionTimer();
         }
 
         private void OnAnswerButtonClicked(object sender, RoutedEventArgs e)
@@ -57,28 +47,31 @@ namespace TestSuiteWpf.Pages
             // get chosen answer
             var tag = ((Button)sender).Tag.ToString();
             if (tag == null) { return; }
-            //QuestionLabel.Content = tag;
-            
-            viewModel.SubmitAnswer(int.Parse(tag));
 
-            // check correct or not
+            controller.SubmitAnswer(int.Parse(tag));
         }
 
-        //private bool CheckCorrectAnswer(int answer, Question question)
-        //{
-        //    return question.CheckAnswer(answer);
-        //}
+        public void SetScoreText(string score) { ScoreLabel.Text = score; }
+        public void SetScoreText(int score) { ScoreLabel.Text = score.ToString(); }
+
+        //public void SetLevelText(string level) { Level.Text = level; }
+        //public void SetLevelText(int level) { Level.Text = level.ToString(); }
+
+        public void SetTimerText(string timeString) { TimerLabel.Text = timeString; }
+
+        public void SetQuestionText(string question) { QuestionLabel.Text = question; }
+
+        public void ShowFeedback(bool show)
+        {
+            if (show) { FeedbackContainer.Visibility = Visibility.Visible; }
+            else { FeedbackContainer.Visibility = Visibility.Collapsed; }
+        }
 
         /// <summary>
         /// Set up the sizes and spacings of the answer buttons
         /// </summary>
         private void ControlButtons()
         {
-            //double topBorder = ActualHeight / 5;
-            //double bottomBorder = ActualHeight / 5 * 4;
-            //double verticalCenter = ActualHeight / 2;
-            //double horizontalCenter = ActualWidth / 2;
-
             if (ActualHeight > 720)
             {
                 Button1.Padding = new Thickness(50, 15, 50, 20);
@@ -91,6 +84,7 @@ namespace TestSuiteWpf.Pages
                 Button8.Padding = new Thickness(50, 15, 50, 20);
                 Button9.Padding = new Thickness(50, 15, 50, 20);
                 Button0.Padding = new Thickness(50, 15, 50, 20);
+                TimerLabel.Padding = new Thickness(20);
             }
             else
             {
@@ -104,17 +98,11 @@ namespace TestSuiteWpf.Pages
                 Button8.Padding = new Thickness(35, 10, 35, 15);
                 Button9.Padding = new Thickness(35, 10, 35, 15);
                 Button0.Padding = new Thickness(35, 10, 35, 15);
+                TimerLabel.Padding = new Thickness(10);
             }
 
-            double verticalScaleFactor = ActualHeight / 4;
-            // 600 / 5 * 2 = 240
-            // 1080 / 5 * 2 = 432
-            // 720 -> 288
-            // 480 -> 192
-
-            //double buttonWidth = Button1.ActualWidth;
+            double verticalScaleFactor = ActualHeight / 3.9;
             double horizontalScaleFactor = ActualWidth / 8.6;
-            // 800 / 10 = 80
 
             Button1.Margin = new Thickness(
                     horizontalScaleFactor - (horizontalScaleFactor / 10),

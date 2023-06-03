@@ -30,17 +30,54 @@
                 <Label
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="Score: " />
-                <TextBlock Text="{Binding Score, UpdateSourceTrigger=PropertyChanged}" />
+                    Content="Score: "
+                    FontSize="{DynamicResource SubBodyFontSize}" />
+                <TextBlock
+                    x:Name="ScoreLabel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="{DynamicResource SubBodyFontSize}"
+                    Text="0" />
+                <!--<Label
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Level: " />
+                <TextBlock
+                    x:Name="Level"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="0" />-->
             </StackPanel>
+            <TextBlock
+                x:Name="TimerLabel"
+                Grid.Row="2"
+                Padding="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Black"
+                FontSize="{DynamicResource ButtonFontSize}"
+                FontWeight="Bold"
+                Foreground="White"
+                Text="Time" />
             <Grid Grid.Row="1">
                 <TextBlock
                     x:Name="QuestionLabel"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="{DynamicResource BodyFontSize}"
+                    FontSize="{DynamicResource ButtonFontSize}"
                     FontWeight="Bold"
-                    Text="{Binding Question, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="Question" />
+                <TextBlock
+                    x:Name="FeedbackContainer"
+                    Padding="30,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="White"
+                    FontSize="100"
+                    FontWeight="Bold"
+                    Foreground="Red"
+                    Text="X"
+                    Visibility="Collapsed" />
 
                 <Button
                     x:Name="Button1"

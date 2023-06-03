@@ -55,7 +55,7 @@ namespace TestSuiteWpf.Pages
                     break;
                 case App.Stages.Third:
                     DescriptionTextBlock.Text =
-                        "Get ready to start the first block.\n\n" +
+                        "Get ready to start the third block.\n\n" +
                         "This block will go for 3 minutes.\n" +
                         "Your goal is to reach the highest score you can.\n\n" +
                         "Press Start button to start the test.";
