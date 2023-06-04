@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace TestSuiteWpf.Models
 {
-    internal class QuestionSet
+    public class QuestionSet
     {
         private readonly List<Question> questions;
         public int Level { get; }
 
         private int lastQuestionGivenIndex = -1;
+        // saves the index of the latest (max 5) given questions
+        private List<int> questionIndexBuffer = new(5);
         private readonly Random random = new();
 
         public QuestionSet(List<Question> questions, int level)

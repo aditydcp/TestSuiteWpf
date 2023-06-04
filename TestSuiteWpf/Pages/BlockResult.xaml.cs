@@ -31,23 +31,23 @@ namespace TestSuiteWpf.Pages
             // hard-coded text values
             switch (App.Stage)
             {
-                case App.Stages.Trial:
+                case Models.Stages.Trial:
                     NavigateToNextSection();
                     break;
-                case App.Stages.First:
+                case Models.Stages.First:
                     TitleTextBlock.Text = "You have finished the first block!";
                     break;
-                case App.Stages.Second:
+                case Models.Stages.Second:
                     TitleTextBlock.Text = "You have finished the second block!";
                     break;
-                case App.Stages.Third:
+                case Models.Stages.Third:
                     TitleTextBlock.Text = "You have finished the third block!";
                     break;
             }
             DescriptionTextBlock.Text =
-                        "You attempted a total of " + questionCount + " trials\n\n" +
-                        "Accuracy (percentage of trials answered correctly) : " + accuracy + "%\n\n" +
-                        "Mean reaction time of correct responses (in ms) : " + meanReactionTimeInMs + " ms";
+                        "You attempted a total of " + App.BlockData + " trials\n\n" +
+                        "Accuracy (percentage of trials answered correctly) : " + App.BlockData.Accuracy + "%\n\n" +
+                        "Mean reaction time of correct responses (in ms) : " + App.BlockData.MeanReactionTimeOnCorrectTrials + " ms";
             NextButton.Content = "Start";
         }
 

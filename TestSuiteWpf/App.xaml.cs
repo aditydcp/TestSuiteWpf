@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using TestSuiteWpf.ViewModels;
+﻿using System.Windows;
+using TestSuiteWpf.Models;
 
 namespace TestSuiteWpf
 {
@@ -14,12 +8,17 @@ namespace TestSuiteWpf
     /// </summary>
     public partial class App : Application
     {
-        // Global score reference
-        public static int Score { get; set; } = 0;
+        //// Global score reference
+        //public static int Score { get; set; } = 0;
 
-        public enum Stages { Trial, First, Second, Third }
         // Global state reference
         public static Stages Stage { get; set; } = Stages.Trial;
+
+        // Global subject data reference
+        public SubjectData Subject { get; set; } = new SubjectData();
+
+        // Global block data reference
+        public BlockData BlockData { get; set; } = new BlockData(Stage);
 
         protected override void OnStartup(StartupEventArgs e)
         {

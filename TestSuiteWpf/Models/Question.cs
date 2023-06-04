@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace TestSuiteWpf.Models
 {
-    internal class Question
+    public class Question
     {
         public string QuestionText { get; }
         public int Answer { get; }
 
         public Question (string question, int answer)
         {
-            this.QuestionText = question;
-            this.Answer = answer;
+            QuestionText = question;
+            Answer = answer;
         }
 
         public bool CheckAnswer(int answer) { return Answer == answer; }
