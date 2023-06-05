@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using CsvHelper;
+using System.Globalization;
+using System.IO;
+using System.Windows;
 using System.Windows.Media;
 using TestSuiteWpf.Models;
 
@@ -37,6 +40,19 @@ namespace TestSuiteWpf
         public static void ResetBlockData()
         {
             BlockData = new BlockData(Stage);
+        }
+
+        public static void SaveDataAsCsv()
+        {
+            using var writer = new StreamWriter("C:\\Users\\123\\Desktop\\test\\file.csv");
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            csv.WriteRecords(Subject.Blocks);
+        }
+        public static void SaveDataAsCsv(string filename)
+        {
+            using var writer = new StreamWriter("C:\\Users\\123\\Desktop\\test\\" + filename + ".csv");
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            csv.WriteRecords(Subject.Blocks);
         }
 
         public static T? FindParentOfType<T>(DependencyObject child) where T : DependencyObject
