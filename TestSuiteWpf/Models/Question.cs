@@ -17,7 +17,18 @@ namespace TestSuiteWpf.Models
             Answer = answer;
         }
 
-        public bool CheckAnswer(int answer) { return Answer == answer; }
-        public bool CheckAnswer(string answer) { return Answer == int.Parse(answer); }
+        public Result CheckAnswer(int answer)
+        {
+            if (answer == Answer) { return Result.Correct; }
+            else if (answer < 0) { return Result.Timeout; }
+            else { return Result.Incorrect; }
+        }
+        public Result CheckAnswer(string answerString = "-1")
+        {
+            int answer = int.Parse(answerString);
+            if (answer == Answer) { return Result.Correct; }
+            else if (answer < 0) { return Result.Timeout; }
+            else { return Result.Incorrect; }
+        }
     }
 }

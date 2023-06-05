@@ -8,7 +8,7 @@ namespace TestSuiteWpf.Models
 {
     public class QuestionSet
     {
-        private readonly List<Question> questions;
+        public List<Question> questions { get; set; }
         public int Level { get; }
 
         private int lastQuestionGivenIndex = -1;

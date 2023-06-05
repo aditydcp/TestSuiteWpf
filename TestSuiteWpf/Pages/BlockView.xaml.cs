@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using TestSuiteWpf.ViewModels;
 
@@ -9,12 +10,12 @@ namespace TestSuiteWpf.Pages
     /// </summary>
     public partial class BlockView : Page
     {
-        private readonly BlockViewController controller;
+        private BlockViewController? controller;
+        private MainWindow? window;
 
         public BlockView()
         {
             InitializeComponent();
-            controller = new BlockViewController(this);
         }
 
         private void OnPageSizeChanged(object sender, SizeChangedEventArgs e)
@@ -24,18 +25,38 @@ namespace TestSuiteWpf.Pages
 
         private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
+            controller = new BlockViewController(this);
             ControlButtons();
             controller.ControlView();
+            controller.StartBlockTimer();
             controller.StartQuestionTimer();
+
+            // debug only
+            window = App.FindParentOfType<MainWindow>(this) as MainWindow;
+            window?.SetConsoleText();
+        }
+
+        private void OnPageUnloaded(object sender, RoutedEventArgs e)
+        {
+            controller!.StopAllTimer();
+            controller = null;
         }
 
         private void OnAnswerButtonClicked(object sender, RoutedEventArgs e)
         {
-            // get chosen answer
-            var tag = ((Button)sender).Tag.ToString();
-            if (tag == null) { return; }
+            if (!controller!.IsOnFeedbackState)
+            {
+                // get chosen answer
+                var tag = ((Button)sender).Tag.ToString();
+                if (tag == null) { return; }
 
-            controller.SubmitAnswer(int.Parse(tag));
+                controller!.SubmitAnswer(int.Parse(tag));
+            }
+        }
+
+        public void FinishBlock()
+        {
+            NavigationService.Navigate(new BlockResult());
         }
 
         public void SetScoreText(string score) { ScoreLabel.Text = score; }
@@ -53,6 +74,8 @@ namespace TestSuiteWpf.Pages
             if (show) { FeedbackContainer.Visibility = Visibility.Visible; }
             else { FeedbackContainer.Visibility = Visibility.Collapsed; }
         }
+
+        public void SetBlockTimerText(string timeString) { BlockTimerLabel.Text = timeString; }
 
         /// <summary>
         /// Set up the sizes and spacings of the answer buttons

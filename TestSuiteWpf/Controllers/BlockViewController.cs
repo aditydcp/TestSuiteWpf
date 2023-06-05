@@ -20,9 +20,11 @@ namespace TestSuiteWpf.ViewModels
         private readonly DispatcherTimer questionTimer;
         private long questionTimerInSeconds;
         private readonly DispatcherTimer feedbackTimer;
-        private long feedbackTimerInMilliseconds;
+
+        public bool IsOnFeedbackState { get; private set; }
 
         // local references
+        private TrialData trial;
         private int score;
         private Question question;
         private int level;
@@ -30,46 +32,68 @@ namespace TestSuiteWpf.ViewModels
 
         public void SubmitAnswer(int answer)
         {
-            if (question.CheckAnswer(answer)) score++;
-            else
+            Result result = question.CheckAnswer(answer);
+            switch (result)
             {
-                score--;
-                // Enter feedback state if wrong
-                EnterFeedbackState();
-                return;
+                case Result.Correct:
+                    score++;
+                    SaveData(result, score, answer);
+                    // start a new question
+                    StartNewQuestion();
+                    break;
+                default:
+                    score--;
+                    SaveData(result, score, answer);
+                    // Enter feedback state if wrong
+                    EnterFeedbackState();
+                    break;
             }
         }
 
+        private void FinishBlock()
+        {
+            StopAllTimer();
+            App.BlockData.CalculateBlockData();
+            App.Subject.SaveBlockData(App.BlockData);
+            view.FinishBlock();
+        }
+
+        private void SaveData(Result result, int score, int answer)
+        {
+            // complete trial data
+            trial.EnterData(result, score, DateTime.Now, question, answer);
+            // save the trial data to the block
+            App.BlockData.SaveTrialData(trial);
+            // quick calculate current stack of data
+            App.BlockData.QuickCalculateBlockData();
+        }
+
+        #region property setter functions
         private void StartNewQuestion()
         {
+            // setup new trial data
+            trial = new TrialData(score);
+
+            // setup new question environment
             SetLevel();
             SetActiveQuestionSet();
             question = GetRandomQuestion();
             ResetQuestionTimer();
+            StartBlockTimer();
+            StartQuestionTimer();
             ControlView();
         }
 
         private int SetLevel()
         {
-            switch (score)
+            return level = score switch
             {
-                case <= 35:
-                    level = 1;
-                    break;
-                case <= 40:
-                    level = 2;
-                    break;
-                case <= 45:
-                    level = 3;
-                    break;
-                case <= 50:
-                    level = 4;
-                    break;
-                case > 50:
-                    level = 5;
-                    break;
-            }
-            return level;
+                <= 35 => 1,
+                <= 40 => 2,
+                <= 45 => 3,
+                <= 50 => 4,
+                > 50 => 5,
+            };
         }
 
         private void SetActiveQuestionSet()
@@ -81,6 +105,7 @@ namespace TestSuiteWpf.ViewModels
             }
             activeQuestionSet = questionSet;
         }
+        #endregion
 
         public Question GetRandomQuestion() { return activeQuestionSet.GetRandomQuestion(); }
 
@@ -89,73 +114,94 @@ namespace TestSuiteWpf.ViewModels
             //view.SetLevelText(level);
             view.SetScoreText(score);
             view.SetQuestionText(question.QuestionText);
-            view.SetTimerText(GetTimeString(questionTimerInSeconds));
+            view.SetTimerText(GetTimeString(App.TrialDuration - questionTimerInSeconds));
+
+            view.SetBlockTimerText(GetTimeString(App.BlockDuration - blockTimerInSeconds));
         }
 
+        #region Feedback State
         private void EnterFeedbackState()
         {
             // stops all other timer
             StopBlockTimer();
             StopQuestionTimer();
+
             // start feedback timer
+            IsOnFeedbackState = true;
             view.ShowFeedback(true);
             StartFeedbackTimer();
         }
 
-        public void StartBlockTimer() { blockTimer.Start(); }
-        public void StopBlockTimer() { blockTimer.Stop(); }
+        private void ExitFeedbackState()
+        {
+            IsOnFeedbackState = false;
+            StopFeedbackTimer();
+            view.ShowFeedback(false);
 
-        public void StartQuestionTimer() { questionTimer.Start(); }
+            //start a new question
+            StartNewQuestion();
+        }
+        #endregion
+
+        #region Timers
+        public void StartBlockTimer() { if (!blockTimer.IsEnabled) blockTimer.Start(); }
+        public void StopBlockTimer() { if (blockTimer.IsEnabled) blockTimer.Stop(); }
+
+        public void StartQuestionTimer() { if (!questionTimer.IsEnabled) questionTimer.Start(); }
         public void StopQuestionTimer() { if (questionTimer.IsEnabled) questionTimer.Stop(); }
         public void ResetQuestionTimer()
         {
             StopQuestionTimer();
-            questionTimerInSeconds = 5;
+            questionTimerInSeconds = 0;
             StartQuestionTimer();
         }
 
-        public void StartFeedbackTimer() { feedbackTimer.Start(); }
-        public void StopFeedbackTimer() { feedbackTimer.Stop(); }
+        public void StartFeedbackTimer() { if (!feedbackTimer.IsEnabled) feedbackTimer.Start(); }
+        public void StopFeedbackTimer() { if (feedbackTimer.IsEnabled) feedbackTimer.Stop(); }
 
+        public void StopAllTimer()
+        {
+            StopBlockTimer();
+            StopFeedbackTimer();
+            StopQuestionTimer();
+        }
+
+        #region Timer Ticks functions
         private void BlockTimerTicks(object? sender, EventArgs e)
         {
-            // TODO: Handle when block ends
             blockTimerInSeconds++;
+            view.SetBlockTimerText(GetTimeString(App.BlockDuration - blockTimerInSeconds));
+            if (blockTimerInSeconds >= App.BlockDuration) { FinishBlock(); }
         }
 
         private void QuestionTimerTicks(object? sender, EventArgs e)
         {
-            questionTimerInSeconds--;
-            if (questionTimerInSeconds <= 0) { SubmitAnswer(-1); }
-            view.SetTimerText(GetTimeString(questionTimerInSeconds));
+            questionTimerInSeconds++;
+            view.SetTimerText(GetTimeString((App.TrialDuration - questionTimerInSeconds)));
+            if (questionTimerInSeconds >= App.TrialDuration) { SubmitAnswer(-1); }
         }
 
         private void FeedbackTimerTicks(object? sender, EventArgs e)
         {
-            feedbackTimerInMilliseconds--;
-            // when timeout (after 500 ms)
-            if (feedbackTimerInMilliseconds <= 0)
-            {
-                // goes out of feedback state and to next question
-                StopFeedbackTimer();
-                view.ShowFeedback(false);
-                // set the timer back to 500 ms
-                feedbackTimerInMilliseconds = 500;
-            }
+            ExitFeedbackState();
         }
+        #endregion
+        #endregion
 
         public string GetTimeString(long timeInSeconds)
         {
-            return ((timeInSeconds + 1) / 60 / 10).ToString() + ((timeInSeconds + 1) / 60 % 10).ToString() +
-                ":" + ((timeInSeconds + 1) % 60 / 10).ToString() + ((timeInSeconds + 1) % 60 % 10).ToString(); 
+            return ((timeInSeconds) / 60 / 10).ToString() + ((timeInSeconds) / 60 % 10).ToString() +
+                ":" + ((timeInSeconds) % 60 / 10).ToString() + ((timeInSeconds) % 60 % 10).ToString(); 
         }
 
         public BlockViewController(BlockView view)
         {
+            // setup reference to view and repository
             this.view = view;
             questionSetRepository = new QuestionSetRepository();
             questionSets = questionSetRepository.GetAllQuestionSets();
 
+            // setup block timer
             blockTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
@@ -163,24 +209,30 @@ namespace TestSuiteWpf.ViewModels
             blockTimer.Tick += BlockTimerTicks;
             blockTimerInSeconds = 0;
 
+            // setup the question timer
             questionTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
             };
             questionTimer.Tick += QuestionTimerTicks;
-            questionTimerInSeconds = 5;
+            questionTimerInSeconds = 0;
 
+            // setup the feedback timer
             feedbackTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(1)
+                Interval = TimeSpan.FromMilliseconds(App.FeedbackDuration)
             };
             feedbackTimer.Tick += FeedbackTimerTicks;
-            feedbackTimerInMilliseconds = 500;
 
-            score = 30;
+            // set initial properties
+            App.BlockData.StartTime = DateTime.Now;
+            IsOnFeedbackState = false;
+            score = App.InitialScore;
             level = 1;
             activeQuestionSet = questionSets.First();
             question = GetRandomQuestion();
+            trial = new TrialData();
+            StartNewQuestion();
         }
     }
 }

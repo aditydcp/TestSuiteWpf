@@ -8,6 +8,8 @@
     Title="MainWindow"
     Width="920"
     Height="600"
+    PreviewKeyDown="Window_PreviewKeyDown"
+    PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
     SizeChanged="OnWindowSizeChanged"
     WindowState="Maximized"
     WindowStyle="None"
@@ -19,10 +21,18 @@
             MouseDoubleClick="MainFrame_MouseDoubleClick"
             NavigationUIVisibility="Hidden"
             SizeChanged="OnWindowSizeChanged" />
-        <Label
-            x:Name="ViewportSizeLabel"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Content="0x0" />
+        <StackPanel x:Name="DebugContainer" Orientation="Vertical">
+            <Label
+                x:Name="ViewportSizeLabel"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="0x0" />
+            <TextBlock
+                x:Name="ConsoleText"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Text="Console" />
+        </StackPanel>
+
     </Grid>
 </Window>

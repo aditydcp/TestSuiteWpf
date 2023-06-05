@@ -23,6 +23,10 @@ namespace TestSuiteWpf.Pages
         public BlockResult()
         {
             InitializeComponent();
+        }
+
+        private void OnPageLoaded(object sender, RoutedEventArgs e)
+        {
             LoadContent();
         }
 
@@ -45,7 +49,7 @@ namespace TestSuiteWpf.Pages
                     break;
             }
             DescriptionTextBlock.Text =
-                        "You attempted a total of " + App.BlockData + " trials\n\n" +
+                        "You attempted a total of " + App.BlockData.TrialsCount + " trials\n\n" +
                         "Accuracy (percentage of trials answered correctly) : " + App.BlockData.Accuracy + "%\n\n" +
                         "Mean reaction time of correct responses (in ms) : " + App.BlockData.MeanReactionTimeOnCorrectTrials + " ms";
             NextButton.Content = "Start";
@@ -53,7 +57,13 @@ namespace TestSuiteWpf.Pages
 
         private void NavigateToNextSection()
         {
+            if (App.Stage == Models.Stages.Third)
+            {
+                NavigationService.Navigate(new ClosingPage());
+                return;
+            }
             App.Stage++;
+            App.ResetBlockData();
             NavigationService.Navigate(new BlockIntro());
         }
 

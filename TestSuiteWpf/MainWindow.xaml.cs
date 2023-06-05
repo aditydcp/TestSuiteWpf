@@ -51,16 +51,45 @@ namespace TestSuiteWpf
             Application.Current.Resources.Add("ButtonFontSize", buttonFontSize);
             Application.Current.Resources.Remove("SubBodyFontSize");
             Application.Current.Resources.Add("SubBodyFontSize", subBodyFontSize);
+        }
 
-            //// debug only
-            //ViewportSizeLabel.Content = MainFrame.ActualHeight + "x" + MainFrame.ActualWidth;
-            //viewportSize = MainFrame.ActualHeight + "x" + MainFrame.ActualWidth;
+        #region debug only
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (MainFrame.Content.GetType() != typeof(LandingPage))
+                {
+                    //Close();
+                    App.ResetBlockData();
+                    MainFrame.Content = new BlockIntro();
+                }
+            }
+            if (e.Key == Key.F12)
+            {
+                if (DebugContainer.Visibility == Visibility.Visible) { DebugContainer.Visibility = Visibility.Collapsed; }
+                if (DebugContainer.Visibility == Visibility.Collapsed) { DebugContainer.Visibility = Visibility.Visible; }
+            }
+        }
+
+        private void Window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (!App.BlockData.IsUnpopulated())
+            //{
+                SetConsoleText();
+            //}
+        }
+
+        public void SetConsoleText()
+        {
+            ConsoleText.Text =
+                "Block Data:\n" + App.BlockData.ToConsoleString();
         }
 
         private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             ViewportSizeLabel.Content = MainFrame.ActualHeight + "x" + MainFrame.ActualWidth;
-            //viewportSize = MainFrame.ActualHeight + "x" + MainFrame.ActualWidth;
         }
+        #endregion
     }
 }
