@@ -9,6 +9,7 @@
     Width="320"
     Height="360"
     PreviewMouseDown="WindowOnPreviewMouseDown"
+    PreviewKeyDown="WindowOnPreviewKeyDown"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">

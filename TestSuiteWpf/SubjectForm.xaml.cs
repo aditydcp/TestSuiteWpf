@@ -25,6 +25,14 @@ namespace TestSuiteWpf
             this.DataContext = this;
         }
 
+        private void WindowOnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                OnStartButtonClicked(this, new RoutedEventArgs());
+            }
+        }
+
         private void OnStartButtonClicked(object sender, RoutedEventArgs e)
         {
             App.Subject.SetSubjectCredentials(SubjectNameInput.Text, SubjectIdInput.Text, GroupIdInput.Text);

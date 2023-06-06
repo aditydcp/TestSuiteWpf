@@ -83,6 +83,7 @@ namespace TestSuiteWpf
         public void SetConsoleText()
         {
             ConsoleText.Text =
+                App.Subject.ToConsoleString(false) + "\n" +
                 "Block Data:\n" + App.BlockData.ToConsoleString();
         }
 
