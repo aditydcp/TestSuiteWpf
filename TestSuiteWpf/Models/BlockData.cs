@@ -9,6 +9,9 @@ using static TestSuiteWpf.App;
 
 namespace TestSuiteWpf.Models
 {
+    /// <summary>
+    /// Data class containing information for individual block.
+    /// </summary>
     public class BlockData
     {
         public Stages Stage { get; }
@@ -20,7 +23,7 @@ namespace TestSuiteWpf.Models
         public double MeanReactionTimeOnCorrectTrials { get; set; }
         public double MeanReactionTime { get; set; }
         public List<TrialData> Trials { get; }
-        public bool IsFinished { get; }
+        public bool IsFinished { get; set; }
         
         /// <summary>
         /// Empty constructor
@@ -87,8 +90,8 @@ namespace TestSuiteWpf.Models
 
             // calculate the other metrics
             int correctCounter = 0;
-            double correctReactionTimeStore = 0;
-            double allReactionTimeStore = 0;
+            long correctReactionTimeStore = 0;
+            long allReactionTimeStore = 0;
             foreach (var trial in Trials)
             {
                 if (trial.Result == Result.Correct)
@@ -105,6 +108,9 @@ namespace TestSuiteWpf.Models
             // calculate mean reaction time
             MeanReactionTime = (allReactionTimeStore * 1.00) / (TrialsCount * 1.00);
             MeanReactionTimeOnCorrectTrials = (correctReactionTimeStore * 1.00) / (correctCounter * 1.00);
+
+            // set to finished
+            IsFinished = true;
         }
 
         public string ToConsoleString()

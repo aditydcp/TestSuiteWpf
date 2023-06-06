@@ -53,6 +53,7 @@ namespace TestSuiteWpf.ViewModels
         private void FinishBlock()
         {
             StopAllTimer();
+            App.BlockData.EndTime = DateTime.Now;
             App.BlockData.CalculateBlockData();
             App.Subject.SaveBlockData(App.BlockData);
             view.FinishBlock();
