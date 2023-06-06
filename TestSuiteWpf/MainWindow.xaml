@@ -29,6 +29,7 @@
                 Content="0x0" />
             <TextBlock
                 x:Name="ConsoleText"
+                Margin="5,5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Text="Console" />

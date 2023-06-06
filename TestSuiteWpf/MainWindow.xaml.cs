@@ -68,7 +68,7 @@ namespace TestSuiteWpf
             if (e.Key == Key.F12)
             {
                 if (DebugContainer.Visibility == Visibility.Visible) { DebugContainer.Visibility = Visibility.Collapsed; }
-                if (DebugContainer.Visibility == Visibility.Collapsed) { DebugContainer.Visibility = Visibility.Visible; }
+                else if (DebugContainer.Visibility == Visibility.Collapsed) { DebugContainer.Visibility = Visibility.Visible; }
             }
         }
 
