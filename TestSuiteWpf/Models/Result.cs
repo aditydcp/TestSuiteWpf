@@ -12,8 +12,8 @@ namespace TestSuiteWpf.Models
     public enum Result
     {
         Correct = 1,
-        Incorrect = 0,
-        Timeout = 2
+        Incorrect = 2,
+        Timeout = 3
     }
 
     public static class ResultExtensions
@@ -25,12 +25,26 @@ namespace TestSuiteWpf.Models
         /// <returns>String</returns>
         public static string ToMyString(this Result result)
         {
+            StringBuilder stringBuilder = new();
+            stringBuilder.Append(result switch
+            {
+                Result.Correct => "Correct",
+                Result.Incorrect => "Incorrect",
+                Result.Timeout => "Timeout",
+                _ => "Nothing"
+            });
+            stringBuilder.Append(" (" + (int)result + ")");
+            return stringBuilder.ToString();
+        }
+
+        public static int ToMyInt(this Result result)
+        {
             return result switch
             {
-                Result.Correct => "Correct (1)",
-                Result.Incorrect => "Incorrect (0)",
-                Result.Timeout => "Timeout(2)",
-                _ => "Nothing"
+                Result.Correct => 1,
+                Result.Incorrect => 2,
+                Result.Timeout => 3,
+                _ => -1
             };
         }
     }

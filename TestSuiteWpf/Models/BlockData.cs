@@ -20,11 +20,20 @@ namespace TestSuiteWpf.Models
         public int Score { get; set; }
         public int TrialsCount { get; set; }
         public double Accuracy { get; set; }
+        /// <summary>
+        /// This property is in resolution of 100 nanoseconds.
+        /// See also <seealso cref="DateTime.Ticks"/>.
+        /// </summary>
         public double MeanReactionTimeOnCorrectTrials { get; set; }
+        /// <summary>
+        /// This property is in resolution of 100 nanoseconds.
+        /// See also <seealso cref="DateTime.Ticks"/>.
+        /// </summary>
         public double MeanReactionTime { get; set; }
         public List<TrialData> Trials { get; }
         public bool IsFinished { get; set; }
-        
+
+        #region Constructors
         /// <summary>
         /// Empty constructor
         /// </summary>
@@ -62,6 +71,7 @@ namespace TestSuiteWpf.Models
             Trials = trials;
             IsFinished = true;
         }
+        #endregion
 
         public void SaveTrialData(TrialData data)
         {
@@ -126,7 +136,7 @@ namespace TestSuiteWpf.Models
                 Trials.Last().ToConsoleString();
             }
             return
-                "Stage: " + Stage.ToMyString() + "\n" +
+                "Stage: " + (int)Stage + "\n" +
                 "StartTime: " + StartTime + "\n" +
                 "EndTime: " + EndTime + "\n" +
                 "Score: " + Score + "\n" +

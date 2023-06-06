@@ -26,13 +26,28 @@ namespace TestSuiteWpf.Models
         /// <returns>String</returns>
         public static string ToMyString(this Stages stage)
         {
-            return stage switch
+            StringBuilder stringBuilder = new();
+            stringBuilder.Append(stage switch
             {
                 Stages.Trial => "Trial stage",
                 Stages.First => "First stage",
                 Stages.Second => "Second stage",
                 Stages.Third => "Third stage",
                 _ => "Nothing"
+            });
+            stringBuilder.Append(" (" + (int)stage + ")");
+            return stringBuilder.ToString();
+        }
+
+        public static int ToMyInt(this Stages stage)
+        {
+            return stage switch
+            {
+                Stages.Trial => 0,
+                Stages.First => 1,
+                Stages.Second => 2,
+                Stages.Third => 3,
+                _ => -1
             };
         }
     }

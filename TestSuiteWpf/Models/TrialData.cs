@@ -15,9 +15,9 @@ namespace TestSuiteWpf.Models
         /// <summary>
         /// This property is calculated from <seealso cref="DateTime.Ticks"/> value difference
         /// between <see cref="TrialData.StartTime"/> and <see cref="TrialData.EndTime"/>.
-        /// The value is in resolution of 1 millisecond.
+        /// The value is in resolution of 100 nanosecond.
         /// </summary>
-        public double ReactionTime { get; set; }
+        public long ReactionTime { get; set; }
         public int StartScore { get; set; }
         public int EndScore { get; set; }
         public DateTime StartTime { get; set; }
@@ -129,17 +129,23 @@ namespace TestSuiteWpf.Models
             UserAnswer = answer.ToString();
         }
 
+        /// <summary>
+        /// Assign this object's <see cref="TrialData.ReactionTime"/>
+        /// </summary>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
         private void CalculateReactionTime(DateTime startTime, DateTime endTime)
         {
             long elapsedTicks = endTime.Ticks - startTime.Ticks;
-            ReactionTime = elapsedTicks / 10000.00;
+            //ReactionTime = elapsedTicks / 10000.00;
+            ReactionTime = elapsedTicks;
         }
 
         public string ToConsoleString()
         {
             return 
                 "Result: " + Result.ToMyString() + "\n" +
-                "Reaction Time: " + ReactionTime + "\n" +
+                "Reaction Time: " + (ReactionTime / 10000.00) + " ms\n" +
                 "StartScore: " + StartScore + "\n" +
                 "EndScore: " + EndScore + "\n" +
                 "StartTime: " + StartTime + "\n" +
