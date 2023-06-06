@@ -23,7 +23,8 @@ namespace TestSuiteWpf
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainWindow = new MainWindow()
+            MainWindow = new SubjectForm();
+            //MainWindow = new MainWindow()
             //{
             //    DataContext = new MainController()
             //};
