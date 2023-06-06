@@ -80,7 +80,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="White"
-                    FontSize="100"
+                    FontSize="200"
                     FontWeight="Bold"
                     Foreground="Red"
                     Text="X"

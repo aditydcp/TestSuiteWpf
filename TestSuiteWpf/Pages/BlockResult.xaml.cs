@@ -52,8 +52,8 @@ namespace TestSuiteWpf.Pages
             DescriptionTextBlock.Text =
                         "You attempted a total of " + App.BlockData.TrialsCount + " trials\n\n" +
                         "Accuracy (percentage of trials answered correctly) : " + App.BlockData.Accuracy.ToString("F", CultureInfo.InvariantCulture) + "%\n\n" +
-                        "Mean reaction time of correct responses (in ms) : " + App.BlockData.MeanReactionTimeOnCorrectTrials.ToString("F", CultureInfo.InvariantCulture) + " ms";
-            NextButton.Content = "Start";
+                        "Mean reaction time of correct responses (in ms) : " + (App.BlockData.MeanReactionTimeOnCorrectTrials / 10000.00).ToString("F", CultureInfo.InvariantCulture) + " ms";
+            NextButton.Content = "Continue";
         }
 
         private void NavigateToNextSection()
