@@ -4,6 +4,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using TestSuiteWpf.Models;
+using System.Configuration;
+using System.Collections.Specialized;
+using System.Collections.Generic;
+using System.Windows.Documents;
+using CsvHelper.Configuration;
 
 namespace TestSuiteWpf
 {
@@ -43,17 +48,78 @@ namespace TestSuiteWpf
             BlockData = new BlockData(Stage);
         }
 
-        public static void SaveDataAsCsv()
+        /// <summary>
+        /// Save the data about subject into the subjects list.
+        /// </summary>
+        public static void SaveSubjectData()
         {
-            using var writer = new StreamWriter("C:\\Users\\123\\Desktop\\test\\file.csv");
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(Subject.Blocks);
+            string path = ConfigurationManager.AppSettings.Get("RunDataPath") + "SubjectRecords.csv";
+            //var hollow = new { something = string.Empty }; // needed to make extra space in the file
+            List<RecordSubject> subject = new()
+            {
+                new RecordSubject(Subject),
+            };
+            StreamWriter writer;
+            CsvWriter csv;
+            FileStream? stream;
+
+            // if file exist, append current SubjectData to the file
+            if (File.Exists(path))
+            {
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    // Don't write the header again.
+                    HasHeaderRecord = false,
+                };
+                stream = File.Open(path, FileMode.Append);
+                writer = new StreamWriter(stream);
+                csv = new CsvWriter(writer, config);
+            }
+            // if file does not exist, create entire file
+            else
+            {
+                stream = null;
+                writer = new StreamWriter(path);
+                csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            }
+
+            using (stream)
+            using (writer)
+            using (csv)
+            //csv.WriteRecord(hollow);
+            csv.WriteRecords(subject);
         }
-        public static void SaveDataAsCsv(string filename)
+
+        /// <summary>
+        /// Save the data of this run into a .csv file.
+        /// </summary>
+        /// <param name="filename">
+        /// Set the name of the file.
+        /// If set to default, the filename would consists of subject's credentials.
+        /// </param>
+        public static void SaveRunData(string filename = "default")
         {
-            using var writer = new StreamWriter("C:\\Users\\123\\Desktop\\test\\" + filename + ".csv");
+            if (filename == "default")
+            {
+                filename =
+                    Subject.GetSubjectName("d") +
+                    Subject.GetSubjectId("d") + "_" +
+                    "G-" + Subject.GetGroupId("d");
+            }
+
+            List<RecordData> records = new();
+            foreach(BlockData block in Subject.Blocks)
+            {
+                foreach (TrialData trial in block.Trials)
+                {
+                    records.Add(new RecordData(Subject, block, trial));
+                }
+            }
+
+            var path = ConfigurationManager.AppSettings.Get("RunDataPath");
+            using var writer = new StreamWriter(path + filename + ".csv");
             using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(Subject.Blocks);
+            csv.WriteRecords(records);
         }
 
         public static T? FindParentOfType<T>(DependencyObject child) where T : DependencyObject
@@ -62,8 +128,7 @@ namespace TestSuiteWpf
             do
             {
                 parentDepObj = VisualTreeHelper.GetParent(parentDepObj);
-                T parent = parentDepObj as T;
-                if (parent != null) return parent;
+                if (parentDepObj is T parent) return parent;
             }
             while (parentDepObj != null);
             return null;
@@ -73,21 +138,25 @@ namespace TestSuiteWpf
         /// <summary>
         /// Starting score for each block.
         /// </summary>
-        public static int InitialScore { get; } = 30;
+        public static int InitialScore { get; } = 
+            int.Parse(ConfigurationManager.AppSettings.Get("InitialScore"));
 
         /// <summary>
         /// Duration for each trial/question in seconds.
         /// </summary>
-        public static int TrialDuration { get; } = 5;
+        public static int TrialDuration { get; } =
+            int.Parse(ConfigurationManager.AppSettings.Get("TrialDurationInSeconds"));
 
         /// <summary>
         /// Duration for each block in seconds.
         /// </summary>
-        public static int BlockDuration { get; } = 1 * 20;
+        public static int BlockDuration { get; } =
+            int.Parse(ConfigurationManager.AppSettings.Get("BlockDurationInSeconds"));
 
         /// <summary>
         /// Duration for the visual feedback in ms.
         /// </summary>
-        public static int FeedbackDuration { get; } = 500;
+        public static int FeedbackDuration { get; } =
+            int.Parse(ConfigurationManager.AppSettings.Get("FeedbackDurationInMs"));
     }
 }
