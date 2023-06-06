@@ -27,12 +27,14 @@ namespace TestSuiteWpf.Pages
 
         private void OnSaveButtonClicked(object sender, RoutedEventArgs e)
         {
-            App.SaveDataAsCsv("file_on_save");
+            App.SaveRunData("file_on_save");
         }
 
         private void OnNextButtonClicked(object sender, RoutedEventArgs e)
         {
-            App.SaveDataAsCsv("file_on_exit");
+            App.Subject.CollectionEndTime = DateTime.Now;
+            App.SaveSubjectData();
+            App.SaveRunData();
             Application.Current.Shutdown();
         }
     }
