@@ -29,6 +29,10 @@ namespace TestSuiteWpf.ViewModels
         private Question question;
         private int level;
         private QuestionSet activeQuestionSet;
+        /// <summary>
+        /// Local reference to this current block's duration
+        /// </summary>
+        private readonly int blockDuration;
 
         public void SubmitAnswer(int answer)
         {
@@ -117,14 +121,14 @@ namespace TestSuiteWpf.ViewModels
             view.SetQuestionText(question.QuestionText);
             view.SetTimerText(GetTimeString(App.TrialDuration - questionTimerInSeconds));
 
-            view.SetBlockTimerText(GetTimeString(App.BlockDuration - blockTimerInSeconds));
+            view.SetBlockTimerText(GetTimeString(blockDuration - blockTimerInSeconds));
         }
 
         #region Feedback State
         private void EnterFeedbackState()
         {
             // stops all other timer
-            StopBlockTimer();
+            //StopBlockTimer();
             StopQuestionTimer();
 
             // start feedback timer
@@ -171,8 +175,8 @@ namespace TestSuiteWpf.ViewModels
         private void BlockTimerTicks(object? sender, EventArgs e)
         {
             blockTimerInSeconds++;
-            view.SetBlockTimerText(GetTimeString(App.BlockDuration - blockTimerInSeconds));
-            if (blockTimerInSeconds >= App.BlockDuration) { FinishBlock(); }
+            view.SetBlockTimerText(GetTimeString(blockDuration - blockTimerInSeconds));
+            if (blockTimerInSeconds >= blockDuration) { FinishBlock(); }
         }
 
         private void QuestionTimerTicks(object? sender, EventArgs e)
@@ -227,6 +231,8 @@ namespace TestSuiteWpf.ViewModels
 
             // set initial properties
             App.BlockData.StartTime = DateTime.Now;
+            if (App.Stage == Stages.Trial) { blockDuration = 10; }
+            else { blockDuration = App.BlockDuration; }
             IsOnFeedbackState = false;
             score = App.InitialScore;
             level = 1;
