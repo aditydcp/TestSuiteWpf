@@ -17,6 +17,9 @@ Before running the app, please set some configuration parameters inside <code>Ap
 This file contains parameters used in the test so that user can easily manage it to suit their needs.
 
 **Important!** Please set the value of <code>RunDataPath</code> parameter to a path to where you want the experiment data to be exported to.
+Make sure to enter the path with double backslash (<code>\\</code>) for each level and put another one at the end.
+
+Example: <code>C:\\Users\\Me\\Desktop\\</code>
 
 You can also set other parameters as needed.
 

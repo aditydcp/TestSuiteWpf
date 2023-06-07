@@ -15,12 +15,14 @@ Kirschbaum, C., Diedrich, O., Gehrke, J., Wüst, S., Hellhammer, D. (1991). Cort
 
 ## IMPORTANT NOTE ##
 
-Before running the App, please set some configuration parameters inside App.config file.
+Before running the App, please set some configuration parameters inside TestSuiteWpf.dll.config file.
 To edit it, open the file in any text editor.
 
 This file contains parameters used in the test.
 ONE PARAMETER YOU MUST SET is the RunDataPath.
 Set this value into a path to where you want the experiment data to be exported to.
+MAKE SURE TO USE DOUBLE BACKSLASH (\\) BETWEEN EACH LEVEL AND ADD ANOTHER DOUBLE BACKSLASH AT THE END.
+For example: C:\\Users\\Me\\Desktop\\
 
 You may also set the other parameter value as needed.
 
