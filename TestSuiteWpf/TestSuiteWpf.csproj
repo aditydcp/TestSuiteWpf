@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="App.config" />
     <None Remove="Resources\Icon-Cancel-120.png" />
     <None Remove="Resources\Icon-Cancel-240.png" />
     <None Remove="Resources\Icon-Cancel-30.png" />
@@ -24,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Icon-Cancel-120.png" />
     <Resource Include="Resources\Icon-Cancel-240.png" />
     <Resource Include="Resources\Icon-Cancel-30.png" />
@@ -33,12 +37,6 @@
     <Resource Include="Resources\Icon-Play-30.png" />
     <Resource Include="Resources\Icon-Play-60.png" />
     <Resource Include="Resources\Icon-Play-90.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
