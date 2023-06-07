@@ -48,6 +48,7 @@ namespace TestSuiteWpf
             BlockData = new BlockData(Stage);
         }
 
+        #region Data Exports
         /// <summary>
         /// Save the data about subject into the subjects list.
         /// </summary>
@@ -121,20 +122,9 @@ namespace TestSuiteWpf
             using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
             csv.WriteRecords(records);
         }
+        #endregion
 
-        public static T? FindParentOfType<T>(DependencyObject child) where T : DependencyObject
-        {
-            DependencyObject parentDepObj = child;
-            do
-            {
-                parentDepObj = VisualTreeHelper.GetParent(parentDepObj);
-                if (parentDepObj is T parent) return parent;
-            }
-            while (parentDepObj != null);
-            return null;
-        }
-
-        // Global static parameters
+        #region Global Static Parameters
         /// <summary>
         /// Starting score for each block.
         /// </summary>
@@ -154,9 +144,28 @@ namespace TestSuiteWpf
             int.Parse(ConfigurationManager.AppSettings.Get("BlockDurationInSeconds"));
 
         /// <summary>
+        /// Duration for the Trial block (introductory block) in seconds.
+        /// </summary>
+        public static int IntroDuration { get; } =
+            int.Parse(ConfigurationManager.AppSettings.Get("IntroDurationInSeconds"));
+
+        /// <summary>
         /// Duration for the visual feedback in ms.
         /// </summary>
         public static int FeedbackDuration { get; } =
             int.Parse(ConfigurationManager.AppSettings.Get("FeedbackDurationInMs"));
+        #endregion
+
+        public static T? FindParentOfType<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentDepObj = child;
+            do
+            {
+                parentDepObj = VisualTreeHelper.GetParent(parentDepObj);
+                if (parentDepObj is T parent) return parent;
+            }
+            while (parentDepObj != null);
+            return null;
+        }
     }
 }
