@@ -21,7 +21,10 @@
             MouseDoubleClick="MainFrame_MouseDoubleClick"
             NavigationUIVisibility="Hidden"
             SizeChanged="OnWindowSizeChanged" />
-        <StackPanel x:Name="DebugContainer" Orientation="Vertical">
+        <StackPanel
+            x:Name="DebugContainer"
+            Orientation="Vertical"
+            Visibility="Collapsed">
             <Label
                 x:Name="ViewportSizeLabel"
                 HorizontalAlignment="Left"

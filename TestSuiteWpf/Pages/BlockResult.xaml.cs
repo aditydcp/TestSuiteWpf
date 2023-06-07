@@ -51,8 +51,8 @@ namespace TestSuiteWpf.Pages
             }
             DescriptionTextBlock.Text =
                         "You attempted a total of " + App.BlockData.TrialsCount + " trials\n\n" +
-                        "Accuracy (percentage of trials answered correctly) : " + App.BlockData.Accuracy.ToString("F", CultureInfo.InvariantCulture) + "%\n\n" +
-                        "Mean reaction time of correct responses (in ms) : " + (App.BlockData.MeanReactionTimeOnCorrectTrials / 10000.00).ToString("F", CultureInfo.InvariantCulture) + " ms";
+                        "Accuracy (percentage of trials answered correctly) : " + ToStringWithNaN(App.BlockData.Accuracy) + "%\n\n" +
+                        "Mean reaction time of correct responses (in ms) : " + ToStringWithNaN(App.BlockData.MeanReactionTimeOnCorrectTrials / 10000.00) + " ms";
             NextButton.Content = "Continue";
         }
 
@@ -71,6 +71,12 @@ namespace TestSuiteWpf.Pages
         private void OnNextButtonClicked(object sender, RoutedEventArgs e)
         {
             NavigateToNextSection();
+        }
+
+        private static string ToStringWithNaN(double number)
+        {
+            if (double.IsNaN(number)) return "~";
+            else return number.ToString("F", CultureInfo.InvariantCulture);
         }
     }
 }

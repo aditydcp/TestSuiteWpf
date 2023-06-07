@@ -34,6 +34,7 @@
                     FontSize="{DynamicResource SubBodyFontSize}" />
                 <TextBlock
                     x:Name="ScoreLabel"
+                    Margin="0,0,5,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="{DynamicResource SubBodyFontSize}"
@@ -53,7 +54,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="{DynamicResource SubBodyFontSize}"
-                    Text="BlockTimer" />
+                    Text="BlockTimer"
+                    Visibility="Collapsed" />
             </StackPanel>
             <TextBlock
                 x:Name="TimerLabel"
