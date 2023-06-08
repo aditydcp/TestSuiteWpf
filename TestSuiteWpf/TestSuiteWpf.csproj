@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>True</UseWindowsForms>
     <StartupObject>TestSuiteWpf.App</StartupObject>
     <ApplicationIcon>Resources\Icon-App.ico</ApplicationIcon>
   </PropertyGroup>
@@ -34,6 +35,7 @@
     <Content Include="README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icon-App.ico" />
     <Resource Include="Resources\Icon-Cancel-120.png" />
     <Resource Include="Resources\Icon-Cancel-240.png" />
     <Resource Include="Resources\Icon-Cancel-30.png" />

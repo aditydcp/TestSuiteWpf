@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Page = System.Windows.Controls.Page;
 
 namespace TestSuiteWpf.Pages
 {
@@ -32,9 +34,16 @@ namespace TestSuiteWpf.Pages
 
         private void OnNextButtonClicked(object sender, RoutedEventArgs e)
         {
+            // save this run's data
             App.Subject.CollectionEndTime = DateTime.Now;
             App.SaveSubjectData();
             App.SaveRunData();
+            
+            // close the window
+            MainWindow? window = App.FindParentOfType<MainWindow>(this) as MainWindow;
+            window?.Close();
+
+            // shut down the app
             Application.Current.Shutdown();
         }
     }
