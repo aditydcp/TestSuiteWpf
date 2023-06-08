@@ -5,6 +5,8 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <StartupObject>TestSuiteWpf.App</StartupObject>
+    <ApplicationIcon>Resources\Icon-App.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
