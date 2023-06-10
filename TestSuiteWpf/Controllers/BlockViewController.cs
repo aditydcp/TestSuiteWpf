@@ -231,7 +231,7 @@ namespace TestSuiteWpf.ViewModels
 
             // set initial properties
             App.BlockData.StartTime = DateTime.Now;
-            if (App.Stage == Stages.Trial) { blockDuration = 10; }
+            if (App.Stage == Stages.Trial) { blockDuration = App.IntroDuration; }
             else { blockDuration = App.BlockDuration; }
             IsOnFeedbackState = false;
             score = App.InitialScore;
