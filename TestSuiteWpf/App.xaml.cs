@@ -54,7 +54,7 @@ namespace TestSuiteWpf
         /// </summary>
         public static void SaveSubjectData()
         {
-            string path = ConfigurationManager.AppSettings.Get("RunDataPath") + "SubjectRecords.csv";
+            string path = ConfigurationManager.AppSettings.Get("RunDataPath") + "SubjectRecords_Trier.csv";
             //var hollow = new { something = string.Empty }; // needed to make extra space in the file
             List<RecordSubject> subject = new()
             {
@@ -118,7 +118,7 @@ namespace TestSuiteWpf
             }
 
             var path = ConfigurationManager.AppSettings.Get("RunDataPath");
-            using var writer = new StreamWriter(path + filename + ".csv");
+            using var writer = new StreamWriter(path + filename + "_Trier.csv");
             using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
             csv.WriteRecords(records);
         }

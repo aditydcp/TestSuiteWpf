@@ -28,8 +28,7 @@ namespace TestSuiteWpf.Pages
             controller = new BlockViewController(this);
             ControlButtons();
             controller.ControlView();
-            controller.StartBlockTimer();
-            controller.StartQuestionTimer();
+            controller.StartBlock();
 
             // debug only
             window = App.FindParentOfType<MainWindow>(this) as MainWindow;
@@ -59,6 +58,7 @@ namespace TestSuiteWpf.Pages
             NavigationService.Navigate(new BlockResult());
         }
 
+        #region UI Setters
         public void SetScoreText(string score) { ScoreLabel.Text = score; }
         public void SetScoreText(int score) { ScoreLabel.Text = score.ToString(); }
 
@@ -75,6 +75,7 @@ namespace TestSuiteWpf.Pages
             else { FeedbackContainer.Visibility = Visibility.Collapsed; }
         }
 
+        // debug only
         public void SetBlockTimerText(string timeString) { BlockTimerLabel.Text = timeString; }
 
         /// <summary>
@@ -175,5 +176,6 @@ namespace TestSuiteWpf.Pages
                     verticalScaleFactor * 2
                 );
         }
+        #endregion
     }
 }

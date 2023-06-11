@@ -54,6 +54,15 @@ namespace TestSuiteWpf.ViewModels
             }
         }
 
+        /// <summary>
+        /// Start necessary initial timers
+        /// </summary>
+        public void StartBlock()
+        {
+            StartBlockTimer();
+            StartQuestionTimer();
+        }
+
         private void FinishBlock()
         {
             StopAllTimer();
