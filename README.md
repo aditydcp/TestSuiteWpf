@@ -13,7 +13,7 @@ Developed by [Aditya Cahyo](https://github.com/aditydcp).
 
 # How to Use
 
-Before running the app, please set some configuration parameters inside <code>App.config</code> file.
+Before running the app, please set some configuration parameters inside <code>App.config</code> or <code>TestSuiteWpf.dll.config</code> file.
 This file contains parameters used in the test so that user can easily manage it to suit their needs.
 
 **Important!** Please set the value of <code>RunDataPath</code> parameter to a path to where you want the experiment data to be exported to.
@@ -30,5 +30,7 @@ With that set, run the app.
 This app is purpose-built for [Trier Mental Challenge Test](https://link.springer.com/chapter/10.1007/978-1-4899-3674-5_7) and is completed.
 
 However, you can use the structure of this app to develop a test of your own.
+
+There is another version of this App for Stroop Word-Color Test called [WpfStroopTestSuite](https://github.com/aditydcp/WpfStroopTestSuite).
 
 Feel free to [contact me](https://github.com/aditydcp) if you have any question about this project or want to further development this app.
